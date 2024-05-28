@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Day-02 | CSS/JS Clock </title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="icon" href="https://fav.farm/🔥" />
+	</head>
+
+	<body>
+		<div class="clock">
+			<div class="clock-face">
+				<div class="hand hour-hand"></div>
+				<div class="hand min-hand"></div>
+				<div class="hand second-hand"></div>
+			</div>
+		</div>
+
+		<script>
+			const secondHand = document.querySelector('.second-hand');
+			const minuteHand = document.querySelector('.min-hand');
+			const hourHand = document.querySelector('.hour-hand');
+
+			function rotateHand(hand, degrees, noTransition) {
+				if (noTransition) {
+					hand.style.transition = 'none';
+				} else {
+					hand.style.transition = 'transform 0.05s cubic-bezier(0.1, 2.7, 0.58, 1)';
+				}
+				hand.style.transform = `rotate(${degrees}deg)`;
+			}
+
+			function setDate() {
+				const now = new Date();
+
+				const seconds = now.getSeconds();
+				const secondsDegrees = ((seconds / 60) * 360) + 90;
+				rotateHand(secondHand, secondsDegrees, seconds === 0);
+
+				const minutes = now.getMinutes();
+				const minutesDegrees = ((minutes / 60) * 360) + 90;
+				rotateHand(minuteHand, minutesDegrees, minutes === 0 && seconds === 0);
+
+				const hours = now.getHours();
+				const hoursDegrees = ((hours / 12) * 360) + 90;
+				rotateHand(hourHand, hoursDegrees, hours === 0 && minutes === 0 && seconds === 0);
+			}
+
+			setInterval(setDate, 1000);
+			setDate();
+		</script>
+	</body>
+</html>
